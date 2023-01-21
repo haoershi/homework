@@ -34,10 +34,6 @@ class LinearRegression:
         Returns:
             _type_: _description_
         """
-        assert (
-            X.shape[1] == self.n_feats,
-            "The input number of features inconsistent with model.",
-        )
         return np.matmul(self.w, X) + self.b
 
 
