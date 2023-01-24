@@ -12,7 +12,7 @@ class LinearRegression:
         self.b = 0
 
     def fit(self, X: np.ndarray, y: np.ndarray) -> None:
-        """ This function fits the linear regression model using the predictors X and the outcome y.
+        """This function fits the linear regression model using the predictors X and the outcome y.
 
         Args:
             X (np.ndarray): m by n predictors matrix containing m samples and n features
@@ -25,7 +25,7 @@ class LinearRegression:
         self.b = theta[-1]
 
     def predict(self, X: np.ndarray) -> np.ndarray:
-        """ This function predicts output y based on input predictors X using the fitted model
+        """This function predicts output y based on input predictors X using the fitted model
 
         Args:
             X (np.ndarray): m by n predictors matrix containing m samples and n features
