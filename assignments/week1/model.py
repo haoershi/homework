@@ -12,27 +12,26 @@ class LinearRegression:
         self.b = 0
 
     def fit(self, X: np.ndarray, y: np.ndarray) -> None:
-        """_summary_
+        """ This function fits the linear regression model using the predictors X and the outcome y.
 
         Args:
-            X (_type_): _description_
-            y (_type_): _description_
+            X (np.ndarray): m by n predictors matrix containing m samples and n features
+            y (np.ndarray): m by 1 predicted outcome matrix
         """
         self.n_samples, self.n_feats = X.shape
         X = np.c_[X, np.ones(self.n_samples)]
         theta = np.linalg.solve(X.T @ X, X.T @ y)
         self.w = theta[:-1]
         self.b = theta[-1]
-        return self
 
     def predict(self, X: np.ndarray) -> np.ndarray:
-        """_summary_
+        """ This function predicts output y based on input predictors X using the fitted model
 
         Args:
-            X (_type_): _description_
+            X (np.ndarray): m by n predictors matrix containing m samples and n features
 
         Returns:
-            _type_: _description_
+            np.ndarray: m by 1 outcome
         """
         return np.matmul(self.w, X) + self.b
 
@@ -45,13 +44,13 @@ class GradientDescentLinearRegression(LinearRegression):
     def fit(
         self, X: np.ndarray, y: np.ndarray, lr: float = 0.01, epochs: int = 1000
     ) -> None:
-        """_summary_
+        """This function fits the linear regression model using the predictors X and the outcome y.
 
         Args:
-            X (np.ndarray): _description_
-            y (np.ndarray): _description_
-            lr (float, optional): _description_. Defaults to 0.01.
-            epochs (int, optional): _description_. Defaults to 1000.
+            X (np.ndarray): m by n predictors matrix containing m samples and n features
+            y (np.ndarray): m by 1 predicted outcome matrix
+            lr (float, optional): learning rate of the gradient descent. Defaults to 0.01.
+            epochs (int, optional): number of traning epochs. Defaults to 1000.
         """
         self.n_samples, self.n_feats = X.shape
         self.w = np.zeros(self.n_feats)
