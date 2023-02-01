@@ -31,8 +31,8 @@ class MLP(torch.nn.Module):
         self.out_size = num_classes
         self.init = initializer
 
-        self.fc1 = nn.Linear(input_size, hidden_size) 
-        self.fc2 = nn.Linear(hidden_size, num_classes)  
+        self.fc1 = nn.Linear(input_size, hidden_size)
+        self.fc2 = nn.Linear(hidden_size, num_classes)
         # Initialize layers of MLP
         # self.layers = nn.ModuleList()
 
