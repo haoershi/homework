@@ -4,7 +4,6 @@ import torch.nn as nn
 
 
 class MLP(torch.nn.Module):
-
     def __init__(
         self,
         input_size: int,
@@ -26,7 +25,7 @@ class MLP(torch.nn.Module):
         """
         super(MLP, self).__init__()
 
-        # Assign activation function 
+        # Assign activation function
         self.actv = activation
         self.input_size = input_size
         self.out_size = num_classes
@@ -37,11 +36,11 @@ class MLP(torch.nn.Module):
 
         # Loop over layers and create each one
         for _ in range(hidden_count):
-            self.layers += [nn.Linear(input_size,hidden_size)]     
+            self.layers += [nn.Linear(input_size, hidden_size)]
             input_size = hidden_size
 
-        self.out = nn.Linear(hidden_size,num_classes)
-        
+        self.out = nn.Linear(hidden_size, num_classes)
+
         for layer in self.layers:
             self.init(layer.weight)
 
@@ -58,7 +57,7 @@ class MLP(torch.nn.Module):
             The output of the network.
         """
         for layer in self.layers:
-          x = self.actv(layer(x))
+            x = self.actv(layer(x))
 
         # Get outputs
         x = self.out(x)
