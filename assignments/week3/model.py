@@ -11,7 +11,7 @@ class MLP(torch.nn.Module):
     def __init__(
         self,
         input_size: int,
-        hidden_size: int,
+        hidden_sizes: list,
         num_classes: int,
         hidden_count: int = 1,
         activation: Callable = torch.nn.ReLU(),
@@ -39,11 +39,11 @@ class MLP(torch.nn.Module):
         self.layers = nn.ModuleList()
 
         # Loop over layers and create each one
-        for _ in range(hidden_count):
-            self.layers += [nn.Linear(input_size, hidden_size)]
-            input_size = hidden_size
+        for i in range(hidden_count):
+            self.layers += [nn.Linear(input_size, hidden_sizes[i])]
+            input_size = hidden_sizes[i]
 
-        self.out = nn.Linear(hidden_size, num_classes)
+        self.out = nn.Linear(hidden_sizes[-1], num_classes)
 
         for layer in self.layers:
             self.init(layer.weight)
