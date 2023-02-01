@@ -44,12 +44,15 @@ class MLP(torch.nn.Module):
         # Loop over layers and create each one
         for i in range(hidden_count):
             self.layers += [nn.Linear(input_size, hidden_sizes[i])]
+            self.layers += [nn.BatchNorm1d(hidden_sizes[i])]
             input_size = hidden_sizes[i]
 
+        self.layers += [nn.Dropout(0.2)]
         self.out = nn.Linear(hidden_sizes[-1], num_classes)
 
         for layer in self.layers:
-            self.init(layer.weight)
+            if isinstance(layer, nn.Linear):
+                self.init(layer.weight)
 
         self.init(self.out.weight)
 
