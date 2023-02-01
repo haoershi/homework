@@ -11,7 +11,7 @@ class MLP(torch.nn.Module):
     def __init__(
         self,
         input_size: int,
-        hidden_sizes: Union[int,list],
+        hidden_sizes: Union[int, list],
         num_classes: int,
         hidden_count: int = 1,
         activation: Callable = torch.nn.ReLU(),
@@ -35,7 +35,7 @@ class MLP(torch.nn.Module):
         self.out_size = num_classes
         self.init = initializer
 
-        if isinstance(hidden_sizes,int):
+        if isinstance(hidden_sizes, int):
             hidden_sizes = [hidden_sizes]
 
         # Initialize layers of MLP
