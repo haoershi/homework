@@ -4,6 +4,10 @@ import torch.nn as nn
 
 
 class MLP(torch.nn.Module):
+    """
+    A simple multi-layer perceptron realization.
+    """
+
     def __init__(
         self,
         input_size: int,
@@ -31,17 +35,15 @@ class MLP(torch.nn.Module):
         self.out_size = num_classes
         self.init = initializer
 
-        self.fc1 = nn.Linear(input_size, hidden_size)
-        self.fc2 = nn.Linear(hidden_size, num_classes)
         # Initialize layers of MLP
-        # self.layers = nn.ModuleList()
+        self.layers = nn.ModuleList()
 
         # Loop over layers and create each one
-        # for _ in range(hidden_count):
-        #     self.layers += [nn.Linear(input_size, hidden_size)]
-        #     input_size = hidden_size
+        for _ in range(hidden_count):
+            self.layers += [nn.Linear(input_size, hidden_size)]
+            input_size = hidden_size
 
-        # self.out = nn.Linear(hidden_size, num_classes)
+        self.out = nn.Linear(hidden_size, num_classes)
 
         for layer in self.layers:
             self.init(layer.weight)
@@ -58,12 +60,10 @@ class MLP(torch.nn.Module):
         Returns:
             The output of the network.
         """
-        # for layer in self.layers:
-        #     x = self.actv(layer(x))
-        out = self.fc1(x)
-        out = self.actv(out)
-        out = self.fc2(out)
+        for layer in self.layers:
+            x = self.actv(layer(x))
 
-        # x = self.out(x)
+        # Get outputs
+        x = self.out(x)
 
         return x
