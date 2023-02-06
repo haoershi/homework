@@ -1,6 +1,7 @@
-from typing import Callable, Union
+from typing import Callable
 import torch
 import torch.nn as nn
+import numpy as np
 
 
 class MLP(torch.nn.Module):
@@ -11,7 +12,7 @@ class MLP(torch.nn.Module):
     def __init__(
         self,
         input_size: int,
-        hidden_sizes: Union[int, list],
+        hidden_size: int,
         num_classes: int,
         hidden_count: int = 1,
         activation: Callable = torch.nn.ReLU(),
@@ -35,24 +36,21 @@ class MLP(torch.nn.Module):
         self.out_size = num_classes
         self.init = initializer
 
-        if isinstance(hidden_sizes, int):
-            hidden_sizes = [hidden_sizes]
-
         # Initialize layers of MLP
         self.layers = nn.ModuleList()
 
         # Loop over layers and create each one
-        for i in range(hidden_count):
-            self.layers += [nn.Linear(input_size, hidden_sizes[i])]
+        for _ in range(hidden_count):
+            self.layers += [nn.Linear(input_size, hidden_size)]
             # self.layers += [nn.BatchNorm1d(hidden_sizes[i])]
-            input_size = hidden_sizes[i]
+            input_size = hidden_size
 
         # self.layers += [nn.Dropout(0.2)]
-        self.out = nn.Linear(hidden_sizes[-1], num_classes)
+        self.out = nn.Linear(hidden_size, num_classes)
 
         for layer in self.layers:
             if isinstance(layer, nn.Linear):
-                self.init(layer.weight)
+                self.init(layer.weight, gain=np.sqrt(2))
 
         self.init(self.out.weight)
 
