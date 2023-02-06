@@ -50,7 +50,7 @@ class MLP(torch.nn.Module):
 
         for layer in self.layers:
             if isinstance(layer, nn.Linear):
-                self.init(layer.weight, gain=np.sqrt(2))
+                self.init(layer.weight)
 
         self.init(self.out.weight)
 
