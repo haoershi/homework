@@ -41,11 +41,11 @@ class MLP(torch.nn.Module):
         # Loop over layers and create each one
         for i in range(hidden_count):
             self.layers += [nn.Linear(input_size, hidden_size // 2**i)]
-            self.layers += [nn.BatchNorm1d(hidden_size // 2**i)]
+            # self.layers += [nn.BatchNorm1d(hidden_size // 2**i)]
             self.layers += [self.actv]
-            # self.layers += [nn.Dropout1d(0.1)]
+            self.layers += [nn.Dropout1d(0.05)]
             input_size = hidden_size // 2**i
-        self.layers += [nn.Dropout(0.5)]
+        # self.layers += [nn.Dropout(0.5)]
         # self.layers += [nn.Dropout(0.2)]
         self.out = nn.Linear(hidden_size // 2 ** (hidden_count - 1), num_classes)
 
