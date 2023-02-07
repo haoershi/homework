@@ -49,13 +49,21 @@ class MLP(torch.nn.Module):
 
         for layer in self.layers:
             if isinstance(layer, nn.Linear):
-                if self.init == torch.nn.init.xavier_normal_ | self.init == torch.nn.init.xavier_uniform_:
-                    self.init(layer.weight,gain = 2**0.5)
+                if (
+                    self.init
+                    == torch.nn.init.xavier_normal_ | self.init
+                    == torch.nn.init.xavier_uniform_
+                ):
+                    self.init(layer.weight, gain=2**0.5)
                 else:
                     self.init(layer.weight)
-        
-        if self.init == torch.nn.init.xavier_normal_ | self.init == torch.nn.init.xavier_uniform_:
-            self.init(self.out.weight,gain = 2**0.5)
+
+        if (
+            self.init
+            == torch.nn.init.xavier_normal_ | self.init
+            == torch.nn.init.xavier_uniform_
+        ):
+            self.init(self.out.weight, gain=2**0.5)
         else:
             self.init(self.out.weight)
 
