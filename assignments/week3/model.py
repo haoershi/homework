@@ -2,8 +2,6 @@ from typing import Callable
 import torch
 import torch.nn as nn
 
-# import numpy as np
-
 
 class MLP(torch.nn.Module):
     """
@@ -51,9 +49,6 @@ class MLP(torch.nn.Module):
 
         for layer in self.layers:
             if isinstance(layer, nn.Linear):
-                # if self.init == torch.nn.init.xavier_normal_:
-                #    self.init(layer.weight, gain=np.sqrt(2))
-                # else:
                 self.init(layer.weight)
 
         self.init(self.out.weight)
