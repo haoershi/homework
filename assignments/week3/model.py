@@ -41,7 +41,9 @@ class MLP(torch.nn.Module):
         # Loop over layers and create each one
         for _ in range(hidden_count):
             self.layers += [nn.Linear(input_size, hidden_size)]
-            # self.layers += [nn.BatchNorm1d(hidden_sizes[i])]
+            self.layers += [nn.BatchNorm1d(hidden_size)]
+            self.layers += [self.actv]
+            self.layers += [nn.Dropout1d(0.1)]
             input_size = hidden_size
 
         # self.layers += [nn.Dropout(0.2)]
@@ -64,7 +66,7 @@ class MLP(torch.nn.Module):
             The output of the network.
         """
         for layer in self.layers:
-            x = self.actv(layer(x))
+            x = layer(x)
 
         # Get outputs
         x = self.out(x)
