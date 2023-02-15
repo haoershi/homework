@@ -2,6 +2,7 @@ from typing import List
 
 from torch.optim.lr_scheduler import _LRScheduler
 import torch
+import math
 
 
 class CustomLRScheduler(_LRScheduler):
@@ -16,6 +17,9 @@ class CustomLRScheduler(_LRScheduler):
         step_size: int = None,
         gamma: int = None,
         start_epoch: int = None,
+        T_0: int = None,
+        T_mult: int = None,
+        eta_min: int = None,
         lr_lambda: list = None,
         last_epoch: int = -1,
     ) -> None:
@@ -36,6 +40,13 @@ class CustomLRScheduler(_LRScheduler):
             self.start_epoch = start_epoch
         if milestones is not None:
             self.milestones = milestones
+        if T_0 is not None:
+            self.T_0 = T_0
+            self.T_i = T_0
+        if T_mult is not None:
+            self.T_mult = T_mult
+        if eta_min is not None:
+            self.eta_min = eta_min
 
         super(CustomLRScheduler, self).__init__(optimizer, last_epoch)
 
@@ -66,14 +77,13 @@ class CustomLRScheduler(_LRScheduler):
         # return [group['lr'] * self.gamma
         #         for group in self.optimizer.param_groups]
         # MultiStepLR
-        if self.last_epoch not in self.milestones:
-            return [group["lr"] for group in self.optimizer.param_groups]
-        return [group["lr"] * self.gamma for group in self.optimizer.param_groups]
-        # test
-        # if self.last_epoch % self.start_epoch != 0:
+        # if self.last_epoch not in self.milestones:
         #     return [group["lr"] for group in self.optimizer.param_groups]
         # return [group["lr"] * self.gamma for group in self.optimizer.param_groups]
-
+        # Cosine
+        self.T_i *= self.T_mult ** (self.last_epoch // self.T_i)
+        return [self.eta_min + (base_lr - self.eta_min) * (1 + math.cos(math.pi * (self.last_epoch % self.T_i) / self.T_i)) / 2
+                for base_lr in self.base_lrs]
     # def _get_closed_form_lr(self) -> List[float]:
     #     """_summary_
 
