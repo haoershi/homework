@@ -2,11 +2,12 @@
     "assignment_name": "RegOpt",
     "contributors": [
         {
-            "name": "Change this to your name",
-            "pennkey": "MyPennKey"
+            "name": "Haoer Shi",
+            "pennkey": "haoershi"
         }
     ],
     "sources": [
-        "Don't forget to list your sources/attribution here!"
+        "https://pytorch.org/docs/stable/_modules/torch/optim/lr_scheduler.html",
+        "https://medium.com/mlearning-ai/cifar10-image-classification-in-pytorch-e5185176fbef"
     ]
 }
