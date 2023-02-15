@@ -8,9 +8,9 @@ from torchvision.transforms import Compose, Normalize, ToTensor
 class CONFIG:
     """_summary_"""
 
-    batch_size = 64
+    batch_size = 32
     num_epochs = 10
-    initial_learning_rate = 0.0014
+    initial_learning_rate = 0.008
     initial_weight_decay = 0
 
     lrs_kwargs = {
@@ -22,7 +22,7 @@ class CONFIG:
         # "gamma": 0.9,
         # "milestones": [3000, 3600, 4000, 4800, 5400, 6000],
         "T_0": 10,
-        "eta_min": 0.0007,
+        "eta_min": 0.0004,
         "T_mult": 3,
     }  # gamma=0.9, milestones=[30,80]
 
