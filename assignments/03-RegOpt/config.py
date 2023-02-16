@@ -6,8 +6,8 @@ from torchvision.transforms import (
     Compose,
     Normalize,
     ToTensor,
-    RandomHorizontalFlip,
-    RandomCrop,
+    # RandomHorizontalFlip,
+    # RandomCrop,
 )
 
 
@@ -45,7 +45,7 @@ class CONFIG:
         [
             ToTensor(),
             Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-            RandomHorizontalFlip(),
-            RandomCrop(32, padding=4),
+            # RandomHorizontalFlip(),
+            # RandomCrop(32, padding=4),
         ]
     )
