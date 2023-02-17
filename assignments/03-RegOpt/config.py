@@ -6,7 +6,8 @@ from torchvision.transforms import (
     Compose,
     Normalize,
     ToTensor,
-    # RandomHorizontalFlip,
+    RandomHorizontalFlip,
+    ColorJitter,
     # RandomCrop,
 )
 
@@ -43,9 +44,10 @@ class CONFIG:
 
     transforms = Compose(
         [
-            # RandomHorizontalFlip(),
             # RandomCrop(32, padding=4),
             ToTensor(),
             Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+            RandomHorizontalFlip(),
+            ColorJitter(),
         ]
     )
