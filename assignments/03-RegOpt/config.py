@@ -15,8 +15,8 @@ class CONFIG:
     """_summary_"""
 
     batch_size = 32
-    num_epochs = 10
-    initial_learning_rate = 0.002
+    num_epochs = 12
+    initial_learning_rate = 0.0018
     initial_weight_decay = 0
 
     lrs_kwargs = {
@@ -27,9 +27,9 @@ class CONFIG:
         # 'step_size': 100,
         # "gamma": 0.9,
         # "milestones": [3000, 3600, 4000, 4800, 5400, 6000],
-        "T_0": 2000,
-        "eta_min": 0.0002,
-        "T_mult": 8,
+        "T_0": 10,
+        "eta_min": 0.0006,
+        "T_mult": 4,
     }  # gamma=0.9, milestones=[30,80]
 
     optimizer_factory: Callable[
@@ -43,9 +43,9 @@ class CONFIG:
 
     transforms = Compose(
         [
-            ToTensor(),
-            Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
             # RandomHorizontalFlip(),
             # RandomCrop(32, padding=4),
+            ToTensor(),
+            Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
         ]
     )
