@@ -6,7 +6,7 @@ from torchvision.transforms import (
     Compose,
     Normalize,
     ToTensor,
-    RandomHorizontalFlip,
+    # RandomHorizontalFlip,
     # ColorJitter,
     # RandomCrop,
 )
@@ -16,8 +16,8 @@ class CONFIG:
     """_summary_"""
 
     batch_size = 32
-    num_epochs = 12
-    initial_learning_rate = 0.0018
+    num_epochs = 10
+    initial_learning_rate = 0.0015
     initial_weight_decay = 0
 
     lrs_kwargs = {
@@ -47,7 +47,7 @@ class CONFIG:
             # RandomCrop(32, padding=4),
             ToTensor(),
             Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-            RandomHorizontalFlip(),
+            # RandomHorizontalFlip(),
             # ColorJitter(),
         ]
     )
