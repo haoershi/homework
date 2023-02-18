@@ -6,6 +6,7 @@ from torchvision.transforms import (
     Compose,
     Normalize,
     ToTensor,
+    RandomRotation,
     # RandomHorizontalFlip,
     # ColorJitter,
     # RandomCrop,
@@ -48,6 +49,7 @@ class CONFIG:
             ToTensor(),
             Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
             # RandomHorizontalFlip(),
+            RandomRotation(10),
             # ColorJitter(),
         ]
     )
