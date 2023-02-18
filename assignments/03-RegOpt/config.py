@@ -26,7 +26,7 @@ class CONFIG:
         # 'lr_lambda': [lambda epoch: 0.999],
         # 'start_epoch': 20,
         # 'step_size': 100,
-        "gamma": 0.95,
+        "gamma": 0.975,
         # "milestones": [3000, 3600, 4000, 4800, 5400, 6000],
         "T_0": 32,
         "eta_min": 0.00035,
