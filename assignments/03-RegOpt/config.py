@@ -26,7 +26,7 @@ class CONFIG:
         # 'lr_lambda': [lambda epoch: 0.999],
         # 'start_epoch': 20,
         # 'step_size': 100,
-        "gamma": 0.9,
+        "gamma": 0.95,
         # "milestones": [3000, 3600, 4000, 4800, 5400, 6000],
         "T_0": 32,
         "eta_min": 0.00035,
@@ -35,12 +35,11 @@ class CONFIG:
 
     optimizer_factory: Callable[
         [nn.Module], torch.optim.Optimizer
-    ] = lambda model: torch.optim.SGD(
+    ] = lambda model: torch.optim.Adam(
         model.parameters(),
         lr=CONFIG.initial_learning_rate,
-        momentum=0.9,
-        # weight_decay=CONFIG.initial_weight_decay,
-        # amsgrad=True,
+        weight_decay=CONFIG.initial_weight_decay,
+        amsgrad=True,
     )  # lr=0.001, betas=(0.9, 0.999), weight_decay=0, amsgrad=False
 
     transforms = Compose(

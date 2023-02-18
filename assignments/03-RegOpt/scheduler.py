@@ -81,11 +81,11 @@ class CustomLRScheduler(_LRScheduler):
         #     return [group["lr"] for group in self.optimizer.param_groups]
         # return [group["lr"] * self.gamma for group in self.optimizer.param_groups]
         # Cosine
-        self.T_i *= self.T_mult ** (self.last_epoch // self.T_i)
+        T_i = self.T_i * self.T_mult ** (self.last_epoch // self.T_i)
         return [
             self.eta_min
-            + (base_lr * self.gamma ** (self.last_epoch // self.T_i) - self.eta_min)
-            * (1 + math.cos(math.pi * (self.last_epoch % self.T_i) / self.T_i))
+            + (base_lr * self.gamma ** (self.last_epoch // T_i) - self.eta_min)
+            * (1 + math.cos(math.pi * (self.last_epoch % T_i) / T_i))
             / 2
             for base_lr in self.base_lrs
         ]
