@@ -35,11 +35,12 @@ class CONFIG:
 
     optimizer_factory: Callable[
         [nn.Module], torch.optim.Optimizer
-    ] = lambda model: torch.optim.Adam(
+    ] = lambda model: torch.optim.SGD(
         model.parameters(),
         lr=CONFIG.initial_learning_rate,
-        weight_decay=CONFIG.initial_weight_decay,
-        amsgrad=True,
+        momentum=0.9,
+        # weight_decay=CONFIG.initial_weight_decay,
+        # amsgrad=True,
     )  # lr=0.001, betas=(0.9, 0.999), weight_decay=0, amsgrad=False
 
     transforms = Compose(
