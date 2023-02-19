@@ -6,9 +6,7 @@ from torchvision.transforms import (
     Compose,
     Normalize,
     ToTensor,
-    # RandomRotation,
     # RandomHorizontalFlip,
-    # ColorJitter,
     # RandomCrop,
 )
 
@@ -18,7 +16,7 @@ class CONFIG:
 
     batch_size = 32
     num_epochs = 12
-    initial_learning_rate = 0.01
+    initial_learning_rate = 0.002
     initial_weight_decay = 0
 
     lrs_kwargs = {
@@ -27,14 +25,11 @@ class CONFIG:
         # 'lr_lambda': [lambda epoch: 0.999],
         # 'start_epoch': 20,
         # 'step_size': 100,
-        "gamma": 0.7,
+        "gamma": 0.95,
         # "milestones": [3000, 3600, 4000, 4800, 5400, 6000],
         "T_0": 32,
-        "eta_min": 0.0003,
+        "eta_min": 0.0002,
         "T_mult": 32,
-        "batch_size": batch_size,
-        "num_epochs": num_epochs,
-        "cycle_end": 0.92,
     }  # gamma=0.9, milestones=[30,80]
 
     optimizer_factory: Callable[
@@ -48,11 +43,9 @@ class CONFIG:
 
     transforms = Compose(
         [
+            # RandomHorizontalFlip(),
             # RandomCrop(32, padding=4),
             ToTensor(),
             Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-            # RandomHorizontalFlip(),
-            # RandomRotation(10),
-            # ColorJitter(),
         ]
     )
