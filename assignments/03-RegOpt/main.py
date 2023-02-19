@@ -82,7 +82,6 @@ def train(
     for epoch in range(num_epochs):
         # Set the model to training mode:
         model.train()
-        print(learning_rate_scheduler.get_lr())
         # Loop over the training data:
         for x, y in tqdm(train_loader):
             # Move the data to the device:
