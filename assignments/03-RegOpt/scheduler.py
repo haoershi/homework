@@ -20,6 +20,9 @@ class CustomLRScheduler(_LRScheduler):
         T_0: int = None,
         T_mult: int = None,
         eta_min: int = None,
+        cycle_end: float = None,
+        num_epochs: int = None,
+        batch_size: int = None,
         lr_lambda: list = None,
         last_epoch: int = -1,
     ) -> None:
@@ -47,6 +50,11 @@ class CustomLRScheduler(_LRScheduler):
             self.T_mult = T_mult
         if eta_min is not None:
             self.eta_min = eta_min
+        if num_epochs is not None and batch_size is not None:
+            self.num_epochs = num_epochs
+            self.batch_size = batch_size
+            self.steps = int(50000 / batch_size) * self.num_epochs
+            self.cycle_end = int(cycle_end * self.steps)
 
         super(CustomLRScheduler, self).__init__(optimizer, last_epoch)
 
@@ -82,16 +90,29 @@ class CustomLRScheduler(_LRScheduler):
         # return [group["lr"] * self.gamma for group in self.optimizer.param_groups]
         # Cosine
         self.T_i *= self.T_mult ** (self.last_epoch // self.T_i)
-        return [
-            self.eta_min
-            + (
-                base_lr * self.gamma ** (self.last_epoch // self.T_i)
-                - self.eta_min * self.gamma ** (self.last_epoch // self.T_i)
-            )
-            * (1 + math.cos(math.pi * (self.last_epoch % self.T_i) / self.T_i))
-            / 2
-            for base_lr in self.base_lrs
-        ]
+        if self.last_epoch <= self.cycle_end:
+            return [
+                self.eta_min
+                + (base_lr * self.gamma ** (self.last_epoch // self.T_i) - self.eta_min)
+                * (1 + math.cos(math.pi * (self.last_epoch % self.T_i) / self.T_i))
+                / 2
+                for base_lr in self.base_lrs
+            ]
+        else:
+            return [
+                self.eta_min
+                + (self.eta_min - 0.25 * self.eta_min)
+                * (
+                    1
+                    + math.cos(
+                        math.pi
+                        * (self.last_epoch - self.cycle_end)
+                        / (self.steps - self.cycle_end)
+                    )
+                )
+                / 2
+                for _ in self.base_lrs
+            ]
 
     # def _get_closed_form_lr(self) -> List[float]:
     #     """_summary_
