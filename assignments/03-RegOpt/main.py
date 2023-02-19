@@ -15,6 +15,7 @@ from model import MiniCNN
 from scheduler import CustomLRScheduler
 from config import CONFIG
 
+
 # Device configuration
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -81,6 +82,7 @@ def train(
     for epoch in range(num_epochs):
         # Set the model to training mode:
         model.train()
+        print(learning_rate_scheduler.get_lr())
         # Loop over the training data:
         for x, y in tqdm(train_loader):
             # Move the data to the device:
@@ -161,6 +163,7 @@ def main() -> None:
     criterion = torch.nn.CrossEntropyLoss()
     # Create the learning rate scheduler:
     learning_rate_scheduler = CustomLRScheduler(optimizer, **CONFIG.lrs_kwargs)
+    # learning_rate_scheduler = StepLR(optimizer, step_size = 5, gamma = 0.1)
     # Train the model:
     train(
         model,
