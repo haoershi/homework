@@ -6,9 +6,9 @@ from torchvision.transforms import (
     Compose,
     ToTensor,
     Normalize,
-    Resize,
-    RandomCrop,
-    RandomHorizontalFlip,
+    # Resize,
+    # RandomCrop,
+    # RandomHorizontalFlip,
 )
 
 
@@ -26,7 +26,7 @@ class CONFIG:
             #     16, padding=4
             # ),  # randomly crop the image to 32x32 with padding of 4 pixels
             # RandomHorizontalFlip(),  # randomly flip the image horizontally
-            Resize(28),
+            # Resize(28),
             ToTensor(),
             Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
         ]
