@@ -19,15 +19,15 @@ class Model(torch.nn.Module):
         """
         super(Model, self).__init__()
 
-        self.conv1 = nn.Conv2d(num_channels, 8, kernel_size=3, stride=1, padding=1)
-        self.bn1 = nn.BatchNorm2d(8)
+        self.conv1 = nn.Conv2d(num_channels, 6, kernel_size=3, stride=1, padding=1)
+        self.bn1 = nn.BatchNorm2d(6)
         self.pool1 = nn.MaxPool2d(kernel_size=2, stride=2)
 
-        self.conv2 = nn.Conv2d(8, 16, kernel_size=3, stride=1, padding=1)
-        self.bn2 = nn.BatchNorm2d(16)
+        self.conv2 = nn.Conv2d(6, 12, kernel_size=3, stride=1, padding=1)
+        self.bn2 = nn.BatchNorm2d(12)
         self.pool2 = nn.MaxPool2d(kernel_size=2, stride=2)
 
-        self.fc1 = nn.Linear(16 * 8 * 8, num_classes)
+        self.fc1 = nn.Linear(12 * 8 * 8, num_classes)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """_summary_
@@ -48,7 +48,7 @@ class Model(torch.nn.Module):
         x = F.relu(x)
         x = self.pool2(x)
 
-        x = x.view(-1, 16 * 8 * 8)
+        x = x.view(-1, 12 * 8 * 8)
         x = self.fc1(x)
 
         return x
