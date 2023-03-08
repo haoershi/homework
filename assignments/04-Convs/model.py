@@ -19,16 +19,14 @@ class Model(torch.nn.Module):
         """
         super(Model, self).__init__()
 
-        self.conv1 = nn.Conv2d(num_channels, 8, kernel_size=3, stride=1, padding=1)
-        self.pool1 = nn.MaxPool2d(kernel_size=2, stride=2)
+        # self.conv1 = nn.Conv2d(num_channels, 8, kernel_size=3, stride=1, padding=1)
+        # self.pool1 = nn.MaxPool2d(kernel_size=2, stride=2)
 
-        self.conv2 = nn.Conv2d(8, 16, kernel_size=3, stride=1, padding=1)
+        self.conv2 = nn.Conv2d(num_channels, 16, kernel_size=3, stride=2, padding=1)
         self.pool2 = nn.MaxPool2d(kernel_size=2, stride=2)
 
-        self.conv3 = nn.Conv2d(16, 32, kernel_size=3, stride=1, padding=1)
-        self.pool3 = nn.MaxPool2d(kernel_size=2, stride=2)
-
-        self.fc1 = nn.Linear(32 * 4 * 4, num_classes)
+        self.fc1 = nn.Linear(16 * 8 * 8, 512)
+        self.fc2 = nn.Linear(512, num_classes)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """_summary_
@@ -39,19 +37,16 @@ class Model(torch.nn.Module):
         Returns:
             torch.Tensor: _description_
         """
-        x = self.conv1(x)
-        x = F.relu(x)
-        x = self.pool1(x)
+        # x = self.conv1(x)
+        # x = F.relu(x)
+        # x = self.pool1(x)
 
         x = self.conv2(x)
         x = F.relu(x)
         x = self.pool2(x)
 
-        x = self.conv3(x)
-        x = F.relu(x)
-        x = self.pool3(x)
-
-        x = x.view(-1, 32 * 4 * 4)
-        x = self.fc1(x)
+        x = x.view(-1, 16 * 8 * 8)
+        x = F.relu(self.fc1(x))
+        x = self.fc2(x)
 
         return x
