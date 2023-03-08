@@ -26,7 +26,8 @@ class Model(torch.nn.Module):
         self.pool2 = nn.MaxPool2d(kernel_size=2, stride=2)
 
         self.fc1 = nn.Linear(16 * 8 * 8, 512)
-        self.fc2 = nn.Linear(512, num_classes)
+        self.fc2 = nn.Linear(512, 100)
+        self.fc3 = nn.Linear(100, num_classes)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """_summary_
@@ -47,6 +48,7 @@ class Model(torch.nn.Module):
 
         x = x.view(-1, 16 * 8 * 8)
         x = F.relu(self.fc1(x))
-        x = self.fc2(x)
+        x = F.relu(self.fc2(x))
+        x = self.fc3(x)
 
         return x
