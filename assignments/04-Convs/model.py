@@ -22,7 +22,7 @@ class Model(torch.nn.Module):
         # self.conv1 = nn.Conv2d(num_channels, 8, kernel_size=3, stride=1, padding=1)
         # self.pool1 = nn.MaxPool2d(kernel_size=2, stride=2)
 
-        self.conv2 = nn.Conv2d(num_channels, 12, kernel_size=5, stride=2, padding=2)
+        self.conv2 = nn.Conv2d(num_channels, 12, kernel_size=3, stride=2, padding=1)
         self.pool2 = nn.MaxPool2d(kernel_size=2, stride=2)
 
         self.fc1 = nn.Linear(12 * 8 * 8, 256)
