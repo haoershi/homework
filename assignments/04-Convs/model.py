@@ -22,10 +22,10 @@ class Model(torch.nn.Module):
         # self.conv1 = nn.Conv2d(num_channels, 8, kernel_size=3, stride=1, padding=1)
         # self.pool1 = nn.MaxPool2d(kernel_size=2, stride=2)
 
-        self.conv2 = nn.Conv2d(num_channels, 10, kernel_size=5, stride=2, padding=2)
+        self.conv2 = nn.Conv2d(num_channels, 12, kernel_size=5, stride=2, padding=2)
         self.pool2 = nn.MaxPool2d(kernel_size=2, stride=2)
 
-        self.fc1 = nn.Linear(10 * 8 * 8, 256)
+        self.fc1 = nn.Linear(12 * 8 * 8, 256)
         self.fc2 = nn.Linear(256, 100)
         self.fc3 = nn.Linear(100, num_classes)
         nn.init.xavier_uniform_(self.conv2.weight)
@@ -50,7 +50,7 @@ class Model(torch.nn.Module):
         x = F.relu(x)
         x = self.pool2(x)
 
-        x = x.view(-1, 10 * 8 * 8)
+        x = x.view(-1, 12 * 8 * 8)
         x = F.relu(self.fc1(x))
         x = F.relu(self.fc2(x))
         x = self.fc3(x)
