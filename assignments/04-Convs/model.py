@@ -26,14 +26,15 @@ class Model(torch.nn.Module):
         self.nchan = 16
         self.conv2 = nn.Conv2d(
             num_channels,
-            8,
+            16,
             kernel_size=3,
+            stride=2,
         )
         self.pool2 = nn.MaxPool2d(kernel_size=2, stride=2)
-        self.conv1 = nn.Conv2d(8, 16, kernel_size=3)
-        self.fc1 = nn.Linear(16 * 6 * 6, 100)
+        # self.conv1 = nn.Conv2d(8, 16, kernel_size=3)
+        self.fc1 = nn.Linear(16 * 7 * 7, 100)
         self.fc2 = nn.Linear(100, num_classes)
-        self.bn1 = nn.BatchNorm2d(8)
+        # self.bn1 = nn.BatchNorm2d(8)
         self.bn2 = nn.BatchNorm2d(16)
         # self.fc2 = nn.Linear(256, 100)
         # self.fc3 = nn.Linear(100, num_classes)
@@ -46,12 +47,12 @@ class Model(torch.nn.Module):
         self.model = nn.Sequential(
             self.conv2,
             nn.ReLU(),
-            self.bn1,
-            self.pool2,
-            self.conv1,
-            nn.ReLU(),
             self.bn2,
             self.pool2,
+            # self.conv1,
+            # nn.ReLU(),
+            # self.bn2,
+            # self.pool2,
             nn.Flatten(),
             self.fc1,
             nn.ReLU(),
