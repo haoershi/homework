@@ -5,7 +5,7 @@ import torch.nn.functional as F
 
 class Model(torch.nn.Module):
     """
-    A simple CNN model that reaches 0.55 accuracy that cost less than 15 sec for an epoch, with batch size 200 
+    A simple CNN model that reaches 0.55 accuracy that cost less than 15 sec for an epoch, with batch size 200
     and learning rate 6e-3 on CIFAR10 dataset
     """
 
