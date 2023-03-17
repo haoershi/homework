@@ -26,14 +26,15 @@ class Model(torch.nn.Module):
         self.nchan = 16
         self.conv2 = nn.Conv2d(
             num_channels,
-            self.nchan,
-            kernel_size=self.ker,
-            stride=2,
-            padding=self.pad,
+            8,
+            kernel_size=3,
         )
         self.pool2 = nn.MaxPool2d(kernel_size=2, stride=2)
-
-        self.fc1 = nn.Linear(self.nchan * 8 * 8, num_classes)
+        self.conv1 = nn.Conv2d(8, 16, kernel_size=3)
+        self.fc1 = nn.Linear(16 * 6 * 6, 100)
+        self.fc2 = nn.Linear(100, num_classes)
+        self.bn1 = nn.BatchNorm2d(8)
+        self.bn2 = nn.BatchNorm2d(16)
         # self.fc2 = nn.Linear(256, 100)
         # self.fc3 = nn.Linear(100, num_classes)
         # nn.init.xavier_uniform_(self.conv2.weight)
@@ -43,7 +44,18 @@ class Model(torch.nn.Module):
         # self.convdepth = nn.Conv2d(num_channels,self.nchan,kernel_size = 1)
         # nn.init.xavier_uniform_(self.convdepth.weight)
         self.model = nn.Sequential(
-            self.conv2, nn.ReLU(), self.pool2, nn.Flatten(), self.fc1
+            self.conv2,
+            nn.ReLU(),
+            self.bn1,
+            self.pool2,
+            self.conv1,
+            nn.ReLU(),
+            self.bn2,
+            self.pool2,
+            nn.Flatten(),
+            self.fc1,
+            nn.ReLU(),
+            self.fc2,
         )
         # optimizer = torch.optim.Adam(self.model.parameters(), lr=6e-3)
         # criterion = nn.CrossEntropyLoss()
