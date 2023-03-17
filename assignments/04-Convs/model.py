@@ -45,16 +45,16 @@ class Model(torch.nn.Module):
         self.model = nn.Sequential(
             self.conv2, nn.ReLU(), self.pool2, nn.Flatten(), self.fc1
         )
-        # optimizer = torch.optim.Adam(self.model.parameters(), lr=6e-3)
-        # criterion = nn.CrossEntropyLoss()
-        # for _ in range(20):
-        #     x = torch.randn(200, 3, 32, 32)
-        #     y = torch.randn(200, 10)
-        #     y_pred = self.model(x)
-        #     loss = criterion(y_pred, y)
-        #     loss.backward()
-        #     # optimizer.step()
-        #     optimizer.zero_grad()
+        optimizer = torch.optim.Adam(self.model.parameters(), lr=6e-3)
+        criterion = nn.CrossEntropyLoss()
+        for _ in range(20):
+            x = torch.randn(200, 3, 32, 32)
+            y = torch.randn(200, 10)
+            y_pred = self.model(x)
+            loss = criterion(y_pred, y)
+            loss.backward()
+            # optimizer.step()
+            optimizer.zero_grad()
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """
