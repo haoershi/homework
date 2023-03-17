@@ -5,7 +5,7 @@ import torch.nn as nn
 from torchvision.transforms import (
     Compose,
     ToTensor,
-    Normalize,
+    # Normalize,
     # Resize,
     # RandomCrop,
     # RandomHorizontalFlip,
@@ -28,6 +28,6 @@ class CONFIG:
             # RandomHorizontalFlip(),  # randomly flip the image horizontally
             # Resize(28),
             ToTensor(),
-            Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+            # Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
         ]
     )
