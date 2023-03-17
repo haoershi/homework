@@ -21,7 +21,7 @@ class Model(torch.nn.Module):
 
         # self.conv1 = nn.Conv2d(num_channels, 8, kernel_size=3, stride=1, padding=1)
         # self.pool1 = nn.MaxPool2d(kernel_size=2, stride=2)
-        self.ker = 3
+        self.ker = 5
         self.pad = (self.ker - 1) // 2
         self.nchan = 16
         self.conv2 = nn.Conv2d(
@@ -45,16 +45,16 @@ class Model(torch.nn.Module):
         self.model = nn.Sequential(
             self.conv2, nn.ReLU(), self.pool2, nn.Flatten(), self.fc1
         )
-        optimizer = torch.optim.Adam(self.model.parameters(), lr=6e-3)
-        criterion = nn.CrossEntropyLoss()
-        for _ in range(20):
-            x = torch.randn(200, 3, 32, 32)
-            y = torch.randn(200, 10)
-            y_pred = self.model(x)
-            loss = criterion(y_pred, y)
-            loss.backward()
-            # optimizer.step()
-            optimizer.zero_grad()
+        # optimizer = torch.optim.Adam(self.model.parameters(), lr=6e-3)
+        # criterion = nn.CrossEntropyLoss()
+        # for _ in range(20):
+        #     x = torch.randn(200, 3, 32, 32)
+        #     y = torch.randn(200, 10)
+        #     y_pred = self.model(x)
+        #     loss = criterion(y_pred, y)
+        #     loss.backward()
+        #     # optimizer.step()
+        #     optimizer.zero_grad()
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """
