@@ -41,6 +41,18 @@ class Model(torch.nn.Module):
         # nn.init.xavier_uniform_(self.fc3.weight)
         # self.convdepth = nn.Conv2d(num_channels,self.nchan,kernel_size = 1)
         # nn.init.xavier_uniform_(self.convdepth.weight)
+        self.model = nn.Sequential(
+            self.conv2, nn.ReLU(), self.pool2, nn.Flatten(), self.fc1
+        )
+        optimizer = torch.optim.Adam(self.model.parameters(), lr=2e-3)
+        x = torch.randn(200, 3, 32, 32)
+        y = torch.randn(200, 10)
+        y_pred = self.forward(x)
+        criterion = nn.CrossEntropyLoss()
+        loss = criterion(y_pred, y)
+        loss.backward()
+        # optimizer.step()
+        optimizer.zero_grad(set_to_none=True)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """
@@ -54,14 +66,15 @@ class Model(torch.nn.Module):
         # x = F.relu(x)
         # x = self.pool1(x)
 
-        x = self.conv2(x)
-        # x = self.convdepth(x)
-        x = F.relu(x)
-        x = self.pool2(x)
+        # x = self.conv2(x)
+        # # x = self.convdepth(x)
+        # x = F.relu(x)
+        # x = self.pool2(x)
 
-        x = x.view(-1, self.nchan * 8 * 8)
-        # x = F.relu(self.fc1(x))
-        # x = F.relu(self.fc2(x))
-        x = self.fc1(x)
+        # x = x.view(-1, self.nchan * 8 * 8)
+        # # x = F.relu(self.fc1(x))
+        # # x = F.relu(self.fc2(x))
+        # x = self.fc1(x)
+        x = self.model(x)
 
         return x
