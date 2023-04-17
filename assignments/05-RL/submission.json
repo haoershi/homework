@@ -2,11 +2,12 @@
     "assignment_name": "RL",
     "contributors": [
         {
-            "name": "Change this to your name",
-            "pennkey": "MyPennKey"
+            "name": "Haoer Shi",
+            "pennkey": "haoershi"
         }
     ],
     "sources": [
-        "Don't forget to list your sources/attribution here!"
+        "Worksheet W11D2",
+        "https://github.com/fakemonk1/Reinforcement-Learning-Lunar_Lander/blob/master/Lunar_Lander.py"
     ]
 }
