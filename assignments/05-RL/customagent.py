@@ -14,7 +14,6 @@ class Agent:
     """
     A reinforcement learning agent that learns to play a Lunar Lander game.
     https://gymnasium.farama.org/environments/box2d/lunar_lander/
-
     """
 
     def __init__(
@@ -24,7 +23,7 @@ class Agent:
         lr: float = 0.0018,
         gamma: float = 0.99,
         epsilon: float = 1.0,
-        tau: float = 1e-3,
+        tau: float = 1e-2,
     ):
         self.action_space = action_space
         self.observation_space = observation_space
@@ -53,10 +52,8 @@ class Agent:
     def act(self, observation: gym.spaces.Box) -> gym.spaces.Discrete:
         """
         Take an observation and return an action.
-
         Args:
             observation (gym.spaces.Box): _description_
-
         Returns:
             gym.spaces.Discrete: _description_
         """
@@ -83,7 +80,6 @@ class Agent:
         """
          Take an observation, a reward, a boolean indicating whether the episode has
          terminated, and a boolean indicating whether the episode was truncated
-
         Args:
             observation (gym.spaces.Box): _description_
             reward (float): _description_
@@ -108,13 +104,13 @@ class Agent:
         if self.replay_buffer.n_samples < self.batch_size:
             return
         batch = self.replay_buffer.sample(self.batch_size)
-        # done = (torch.logical_or(batch.terminated, batch.truncated)).type(torch.float32)
+        done = (torch.logical_or(batch.terminated, batch.truncated)).type(torch.float32)
         q_actions = self.q_net(batch.state)
         q_pred = q_actions.gather(1, batch.action)
         with torch.no_grad():
             q_target_actions = self.target_net(batch.next_state)
             q_target = q_target_actions.max(dim=1)[0].view(-1, 1)
-            q_target = batch.reward + self.gamma * (1 - batch.terminated) * q_target
+            q_target = batch.reward + self.gamma * (1 - done) * q_target
         loss = self.loss_fn(q_target, q_pred)
 
         self.optimizer.zero_grad()
@@ -204,6 +200,10 @@ class QNet(nn.Module):
         super().__init__()
         self.model = nn.Sequential(
             nn.Linear(n_observ, 64),
+            nn.ReLU(),
+            nn.Linear(64, 64),
+            nn.ReLU(),
+            nn.Linear(64, 64),
             nn.ReLU(),
             nn.Linear(64, 64),
             nn.ReLU(),
