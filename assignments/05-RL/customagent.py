@@ -19,9 +19,11 @@ class Agent:
     def act(self, observation: gym.spaces.Box) -> gym.spaces.Discrete:
         """
         Takes an observation and returns an action.
-        from https://github.com/openai/gym/blob/master/gym/envs/box2d/lunar_lander.py 
+        from https://github.com/openai/gym/blob/master/gym/envs/box2d/lunar_lander.py
         """
-        angle_targ = observation[0] * 0.5 + observation[2] * 1.0  # angle should point towards center
+        angle_targ = (
+            observation[0] * 0.5 + observation[2] * 1.0
+        )  # angle should point towards center
         if angle_targ > 0.4:
             angle_targ = 0.4  # more than 0.4 radians (22 degrees) is bad
         if angle_targ < -0.4:
@@ -47,7 +49,6 @@ class Agent:
         elif angle_todo > +0.05:
             a = 1
         return a
-
 
     def learn(
         self,
