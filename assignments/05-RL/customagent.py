@@ -27,7 +27,7 @@ class Agent:
             gym.spaces.Discrete: _description_
         from https://github.com/openai/gym/blob/master/gym/envs/box2d/lunar_lander.py
         """
-        thres = 0.45
+        thres = 0.4
         angle_targ = (
             observation[0] * 0.5 + observation[2] * 1.0
         )  # angle should point towards center
