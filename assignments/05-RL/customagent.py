@@ -19,36 +19,35 @@ class Agent:
     def act(self, observation: gym.spaces.Box) -> gym.spaces.Discrete:
         """
         Takes an observation and returns an action.
+        from https://github.com/openai/gym/blob/master/gym/envs/box2d/lunar_lander.py 
         """
-        obs = observation
-        pos_x = obs[0]
-        # pos_y = obs[1]
-        velocity_x = obs[2]
-        velocity_y = obs[3]
-        angle = obs[4]
-        ang_vec = obs[5]
-        action = 0
+        angle_targ = observation[0] * 0.5 + observation[2] * 1.0  # angle should point towards center
+        if angle_targ > 0.4:
+            angle_targ = 0.4  # more than 0.4 radians (22 degrees) is bad
+        if angle_targ < -0.4:
+            angle_targ = -0.4
+        hover_targ = 0.55 * np.abs(
+            observation[0]
+        )  # target y should be proportional to horizontal offset
 
-        if pos_x * velocity_x > 0 and np.abs(pos_x) > 0.015:
-            if pos_x > 0:
-                action = 1
-            else:
-                action = 3
-        if angle * ang_vec > 0 and np.abs(angle) > 0.03:
-            if angle > 0:
-                action = 3
-            else:
-                action = 1
-        if velocity_y < -0.25:
-            action = 2
+        angle_todo = (angle_targ - observation[4]) * 0.5 - (observation[5]) * 1.0
+        hover_todo = (hover_targ - observation[1]) * 0.5 - (observation[3]) * 0.5
 
-        if obs[6] and obs[7]:
-            action = 0
-        elif obs[6]:
-            action = 3
-        elif obs[7]:
-            action = 1
-        return action
+        if observation[6] or observation[7]:  # legs have contact
+            angle_todo = 0
+            hover_todo = (
+                -(observation[3]) * 0.5
+            )  # override to reduce fall speed, that's all we need after contact
+
+        a = 0
+        if hover_todo > np.abs(angle_todo) and hover_todo > 0.05:
+            a = 2
+        elif angle_todo < -0.05:
+            a = 3
+        elif angle_todo > +0.05:
+            a = 1
+        return a
+
 
     def learn(
         self,

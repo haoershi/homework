@@ -12,6 +12,7 @@
     ],
     "sources": [
         "Worksheet W11D2",
-        "https://github.com/fakemonk1/Reinforcement-Learning-Lunar_Lander/blob/master/Lunar_Lander.py"
+        "https://github.com/fakemonk1/Reinforcement-Learning-Lunar_Lander/blob/master/Lunar_Lander.py",
+        "https://github.com/openai/gym/blob/master/gym/envs/box2d/lunar_lander.py"
     ]
 }
