@@ -3,8 +3,10 @@ import numpy as np
 
 
 class Agent:
+
     """
-    Agent Class
+    A maybe not reinforcement learning agent that learns to play a Lunar Lander game.
+    https://gymnasium.farama.org/environments/box2d/lunar_lander/
     """
 
     def __init__(
@@ -18,16 +20,21 @@ class Agent:
 
     def act(self, observation: gym.spaces.Box) -> gym.spaces.Discrete:
         """
-        Takes an observation and returns an action.
+        Take an observation and return an action.
+        Args:
+            observation (gym.spaces.Box): _description_
+        Returns:
+            gym.spaces.Discrete: _description_
         from https://github.com/openai/gym/blob/master/gym/envs/box2d/lunar_lander.py
         """
+        thres = 0.35
         angle_targ = (
             observation[0] * 0.5 + observation[2] * 1.0
         )  # angle should point towards center
-        if angle_targ > 0.4:
-            angle_targ = 0.4  # more than 0.4 radians (22 degrees) is bad
-        if angle_targ < -0.4:
-            angle_targ = -0.4
+        if angle_targ > thres:
+            angle_targ = thres  # more than 0.4 radians (22 degrees) is bad
+        if angle_targ < -thres:
+            angle_targ = -thres
         hover_targ = 0.55 * np.abs(
             observation[0]
         )  # target y should be proportional to horizontal offset
@@ -58,8 +65,13 @@ class Agent:
         truncated: bool,
     ) -> None:
         """
-        Takes an observation, a reward, a boolean indicating whether the episode has terminated,
-        and a boolean indicating whether the episode was truncated.
+         Take an observation, a reward, a boolean indicating whether the episode has
+         terminated, and a boolean indicating whether the episode was truncated
+        Args:
+            observation (gym.spaces.Box): _description_
+            reward (float): _description_
+            terminated (bool): _description_
+            truncated (bool): _description_
         """
 
         pass
